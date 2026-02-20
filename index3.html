@@ -1,15 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Welcome</title>
+<title>Login</title>
 <style>
 body {
     font-family:sans-serif;
+    background:linear-gradient(135deg,#6a11cb,#2575fc);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    margin:0;
+}
+.card {
+    background:white;
+    padding:2rem;
+    border-radius:10px;
+    width:350px;
     text-align:center;
-    margin-top:100px;
+}
+input, button {
+    width:90%;
+    padding:10px;
+    margin:8px 0;
 }
 button {
-    padding:10px 20px;
     background:#6a11cb;
     color:white;
     border:none;
@@ -18,42 +33,64 @@ button {
 button:hover {
     background:#2575fc;
 }
+.error { color:red; }
 </style>
 </head>
 <body>
 
-<h1 id="welcome-message"></h1>
-<p>You are successfully logged in.</p>
+<div class="card">
+<h2>Login</h2>
 
-<form id="logout-form">
-    <button type="submit">Logout</button>
+<p id="error-message" class="error" style="display:none;"></p>
+
+<form id="login-form">
+    <input type="text" id="username" placeholder="Username" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <button type="submit">Login</button>
 </form>
+</div>
 
 <script>
-    // Check if a user is "logged in" (simulated via localStorage)
-    const username = localStorage.getItem('logged_in_user');
+    const savedUsername = localStorage.getItem('saved_user');
+    const savedPassword = localStorage.getItem('saved_pass');
 
-    if (!username) {
-        // If no username found, redirect to login page (index2.html)
-        window.location.href = "index2.html"; // Redirect to the NEW login page (index2.html)
-    } else {
-        // If logged in, display the welcome message
-        document.getElementById('welcome-message').innerText = `🎉 Welcome, ${username}!`;
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const errorMessageElement = document.getElementById('error-message');
+
+    if (savedUsername) {
+        usernameInput.value = savedUsername;
     }
 
-    // Handle logout
-    document.getElementById('logout-form').addEventListener('submit', function(event) {
-        event.preventDefault(); // Prevent default form submission
+    function showErrorMessage(message) {
+        errorMessageElement.innerText = message;
+        errorMessageElement.style.display = 'block';
+    }
 
-        // Remove the "logged in" state from localStorage
-        localStorage.removeItem('logged_in_user');
-        // Optionally, clear the saved signup credentials if you want
-        // localStorage.removeItem('saved_user');
-        // localStorage.removeItem('saved_pass');
+    function hideErrorMessage() {
+        errorMessageElement.style.display = 'none';
+    }
 
-        // Redirect to the signup page after logout
-        window.location.href = "index.html"; // Redirect to signup page
+    document.getElementById('login-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        hideErrorMessage();
+
+        const enteredUsername = usernameInput.value.trim();
+        const enteredPassword = passwordInput.value.trim();
+
+        if (enteredUsername === savedUsername && enteredPassword === savedPassword) {
+            localStorage.setItem('logged_in_user', enteredUsername);
+            window.location.href = "index3.html"; // Redirect to WELCOME page (index3.html)
+        } else {
+            showErrorMessage("Invalid login details!");
+        }
     });
+
+    // If already logged in, skip login page and go straight to welcome
+    if (localStorage.getItem('logged_in_user')) {
+        window.location.href = "index3.html";
+    }
 </script>
 
 </body>
