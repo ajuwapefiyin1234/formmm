@@ -1,30 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Signup</title>
+<title>Welcome</title>
 <style>
 body {
-    font-family: sans-serif;
-    background: linear-gradient(135deg,#6a11cb,#2575fc);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
-    margin:0;
-}
-.card {
-    background:white;
-    padding:2rem;
-    border-radius:10px;
-    width:350px;
+    font-family:sans-serif;
     text-align:center;
-}
-input, button {
-    width:90%;
-    padding:10px;
-    margin:8px 0;
+    margin-top:100px;
 }
 button {
+    padding:10px 20px;
     background:#6a11cb;
     color:white;
     border:none;
@@ -33,93 +18,41 @@ button {
 button:hover {
     background:#2575fc;
 }
-.captcha-box {
-    background:#eee;
-    padding:10px;
-    letter-spacing:3px;
-    font-weight:bold;
-    margin-bottom: 8px; /* Added margin for spacing */
-}
-.error { color:red; }
 </style>
 </head>
 <body>
 
-<div class="card">
-<h2>Create Account</h2>
+<h1 id="welcome-message"></h1>
+<p>You are successfully logged in.</p>
 
-<p id="error-message" class="error" style="display:none;"></p>
-
-<form id="signup-form">
-    <input type="text" id="username" placeholder="Username" required>
-    <input type="password" id="password" placeholder="Password" required>
-
-    <div class="captcha-box" id="captcha-display"></div>
-
-    <input type="text" id="captcha-input" placeholder="Enter CAPTCHA" required>
-
-    <button type="submit">Sign Up</button>
+<form id="logout-form">
+    <button type="submit">Logout</button>
 </form>
-</div>
 
 <script>
-    let currentCaptcha = '';
+    // Check if a user is "logged in" (simulated via localStorage)
+    const username = localStorage.getItem('logged_in_user'); // We'll use 'logged_in_user' as the key
 
-    // Function to generate a random CAPTCHA string
-    function generateCaptcha() {
-        const characters = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-        let captcha = '';
-        for (let i = 0; i < 5; i++) {
-            captcha += characters.charAt(Math.floor(Math.random() * characters.length));
-        }
-        return captcha;
+    if (!username) {
+        // If no username found, redirect to login page
+        window.location.href = "login.html"; // Assuming you have a login.html
+    } else {
+        // If logged in, display the welcome message
+        document.getElementById('welcome-message').innerText = `🎉 Welcome, ${username}!`;
     }
 
-    // Function to display the CAPTCHA
-    function displayCaptcha() {
-        currentCaptcha = generateCaptcha();
-        document.getElementById('captcha-display').innerText = currentCaptcha;
-    }
-
-    // Function to show an error message
-    function showErrorMessage(message) {
-        const errorMessageElement = document.getElementById('error-message');
-        errorMessageElement.innerText = message;
-        errorMessageElement.style.display = 'block';
-    }
-
-    // Function to hide the error message
-    function hideErrorMessage() {
-        document.getElementById('error-message').style.display = 'none';
-    }
-
-    // Handle form submission
-    document.getElementById('signup-form').addEventListener('submit', function(event) {
+    // Handle logout
+    document.getElementById('logout-form').addEventListener('submit', function(event) {
         event.preventDefault(); // Prevent default form submission
 
-        hideErrorMessage(); // Clear previous errors
+        // Remove the "logged in" state from localStorage
+        localStorage.removeItem('logged_in_user');
+        localStorage.removeItem('saved_user'); // Also clear the saved user from signup if it's there
+        localStorage.removeItem('saved_pass'); // And the saved password for safety
 
-        const username = document.getElementById('username').value.trim();
-        const password = document.getElementById('password').value.trim();
-        const captchaInput = document.getElementById('captcha-input').value.trim();
-
-        if (captchaInput.toLowerCase() !== currentCaptcha.toLowerCase()) {
-            showErrorMessage("Incorrect CAPTCHA!");
-            displayCaptcha(); // Generate new CAPTCHA on error
-        } else {
-            // For a real application, you'd send username and password to a server here.
-            // For this client-side demo, we'll just simulate a "success" and store locally.
-            localStorage.setItem('saved_user', username);
-            localStorage.setItem('saved_pass', password); // IMPORTANT: NEVER store passwords like this in real apps!
-
-            alert("Signup Successful! (Username and password saved in local storage for demo purposes)");
-            // In a real app, you might redirect to a login page or dashboard
-            window.location.href = "login.html"; // Assuming you have a login.html
-        }
+        // Redirect to login page after logout
+        window.location.href = "login.html";
     });
-
-    // Initialize CAPTCHA when the page loads
-    displayCaptcha();
 </script>
 
 </body>
