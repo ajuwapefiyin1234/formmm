@@ -102,12 +102,11 @@ button:hover {
             showErrorMessage("Incorrect CAPTCHA!");
             displayCaptcha();
         } else {
-            // Save username and password for demo. IMPORTANT: NOT secure for production!
             localStorage.setItem('saved_user', username);
             localStorage.setItem('saved_pass', password);
 
             alert("Signup Successful! Now redirecting to login page.");
-            window.location.href = "login.html"; // Redirect to login page
+            window.location.href = "index2.html"; // Redirect to LOGIN page (index2.html)
         }
     });
 
