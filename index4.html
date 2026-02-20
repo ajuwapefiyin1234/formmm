@@ -1,22 +1,35 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Logging out...</title>
+<title>Logging Out</title>
+<style>
+body {
+    font-family: sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background: linear-gradient(135deg,#6a11cb,#2575fc);
+    color: white;
+    font-size: 1.2em;
+}
+</style>
 </head>
 <body>
 
+<p>Logging you out, please wait...</p>
+
 <script>
-    // Clear the "logged in" state from localStorage
+    // Clears the active login session
     localStorage.removeItem('logged_in_user');
-    // Also clear the saved user credentials if they are still there
+    // Clears saved username/password from signup (optional, for a full reset)
     localStorage.removeItem('saved_user');
     localStorage.removeItem('saved_pass');
 
-    // Redirect to the signup page (or login.html, depending on your flow)
-    window.location.href = "index.html"; // Assuming index.html is your signup page
+    // Redirects to your signup page (index.html)
+    window.location.href = "index.html";
 </script>
-
-<p>Logging out, please wait...</p>
 
 </body>
 </html>
