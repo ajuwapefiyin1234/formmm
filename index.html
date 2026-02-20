@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Signup</title>
+<style>
+body {
+    font-family: sans-serif;
+    background: linear-gradient(135deg,#6a11cb,#2575fc);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    margin:0;
+}
+.card {
+    background:white;
+    padding:2rem;
+    border-radius:10px;
+    width:350px;
+    text-align:center;
+}
+input, button {
+    width:90%;
+    padding:10px;
+    margin:8px 0;
+}
+button {
+    background:#6a11cb;
+    color:white;
+    border:none;
+    cursor:pointer;
+}
+button:hover {
+    background:#2575fc;
+}
+.captcha-box {
+    background:#eee;
+    padding:10px;
+    letter-spacing:3px;
+    font-weight:bold;
+}
+.error { color:red; }
+</style>
+</head>
+<body>
+
+<div class="card">
+<h2>Create Account</h2>
+
+<!-- Error placeholder -->
+<p class="error" id="error-msg" style="display:none;"></p>
+
+<form id="signup-form">
+    <input type="text" name="username" placeholder="Username" required>
+    <input type="password" name="password" placeholder="Password" required>
+
+    <!-- CAPTCHA placeholder -->
+    <div class="captcha-box" id="captcha-box">ABCDE</div>
+
+    <input type="text" name="captcha" placeholder="Enter CAPTCHA" required>
+
+    <button type="submit">Sign Up</button>
+</form>
+</div>
+
+<script>
+// Simple frontend CAPTCHA validation (for demo only)
+const captchaBox = document.getElementById('captcha-box');
+const signupForm = document.getElementById('signup-form');
+const errorMsg = document.getElementById('error-msg');
+
+function generateCaptcha() {
+    const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+    let captcha = "";
+    for (let i = 0; i < 5; i++) {
+        captcha += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    captchaBox.textContent = captcha;
+}
+
+generateCaptcha(); // initial captcha
+
+signupForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const enteredCaptcha = signupForm.captcha.value.trim().toUpperCase();
+    const correctCaptcha = captchaBox.textContent.trim().toUpperCase();
+
+    if (enteredCaptcha !== correctCaptcha) {
+        errorMsg.textContent = "Incorrect CAPTCHA!";
+        errorMsg.style.display = "block";
+        generateCaptcha(); // refresh captcha
+    } else {
+        errorMsg.style.display = "none";
+        alert("Signup successful! (This is static demo, no backend)");
+        signupForm.reset();
+        generateCaptcha(); // refresh captcha
+    }
+});
+</script>
+
+</body>
+</html>
