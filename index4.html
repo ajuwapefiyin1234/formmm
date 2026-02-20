@@ -21,14 +21,11 @@ body {
 <p>Logging you out, please wait...</p>
 
 <script>
-    // Clears the active login session
     localStorage.removeItem('logged_in_user');
-    // Clears saved username/password from signup (optional, for a full reset)
     localStorage.removeItem('saved_user');
     localStorage.removeItem('saved_pass');
 
-    // Redirects to your signup page (index.html)
-    window.location.href = "index.html";
+    window.location.href = "index.html"; // Redirect to SIGNUP page (index.html)
 </script>
 
 </body>
