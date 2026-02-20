@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Logging out...</title>
+<style>
+    body {
+        font-family: sans-serif;
+        text-align: center;
+        margin-top: 100px;
+        background-color: #f4f4f4;
+    }
+    p {
+        color: #555;
+        font-size: 1.2em;
+    }
+</style>
+</head>
+<body>
+
+    <p>Logging you out...</p>
+
+    <script>
+        // Clear the "logged in" flags from localStorage
+        localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('loggedInUser');
+
+        // Redirect to the signup/login page, which is now index.html
+        window.location.href = 'index.html';
+    </script>
+
+</body>
+</html>
