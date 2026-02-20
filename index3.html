@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome</title>
+<style>
+body {
+    font-family:sans-serif;
+    text-align:center;
+    margin-top:100px;
+    background-color: #f4f4f4; /* Added for consistency with previous example */
+}
+.welcome-container { /* Added for consistency with previous example */
+    width: 400px;
+    margin: 50px auto;
+    padding: 30px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+h1 {
+    color: #333;
+    margin-bottom: 15px;
+}
+p {
+    color: #555;
+    margin-bottom: 25px;
+}
+button {
+    padding:10px 20px;
+    background:#6a11cb;
+    color:white;
+    border:none;
+    border-radius: 4px; /* Added for consistency with previous example */
+    cursor:pointer;
+    font-size: 16px; /* Added for consistency with previous example */
+}
+button:hover {
+    background:#2575fc;
+}
+</style>
+</head>
+<body>
+
+<div class="welcome-container">
+    <h1>🎉 Welcome, <span id="usernameDisplay"></span>!</h1>
+    <p>You are successfully logged in.</p>
+
+    <form id="logoutForm">
+        <button type="submit">Logout</button>
+    </form>
+</div>
+
+<script>
+    // --- Client-side JavaScript for the Welcome Page ---
+
+    const usernameDisplay = document.getElementById('usernameDisplay');
+    const logoutForm = document.getElementById('logoutForm');
+
+    // Check if the user is "logged in" based on localStorage
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
+    const loggedInUser = localStorage.getItem('loggedInUser');
+
+    if (isLoggedIn === 'true' && loggedInUser) {
+        // If "logged in", display the username
+        usernameDisplay.textContent = loggedInUser;
+    } else {
+        // If not "logged in", redirect to the (simulated) login page
+        // IMPORTANT: Replace 'login.html' with the actual path to your login page file.
+        window.location.href = 'login.html'; // Assuming your login page is named login.html
+    }
+
+    // Add event listener for the Logout button
+    logoutForm.addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the form from submitting normally
+
+        // Clear the "logged in" flags from localStorage
+        localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('loggedInUser');
+
+        alert('You have been logged out!'); // Optional alert
+        
+        // Redirect back to the (simulated) login page
+        // IMPORTANT: Replace 'login.html' with the actual path to your login page file.
+        window.location.href = 'login.html'; // Assuming your login page is named login.html
+    });
+</script>
+
+</body>
+</html>
