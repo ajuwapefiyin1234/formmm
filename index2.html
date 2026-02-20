@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Login</title>
+<title>Signup</title>
 <style>
 body {
-    font-family:sans-serif;
-    background:linear-gradient(135deg,#6a11cb,#2575fc);
+    font-family: sans-serif;
+    background: linear-gradient(135deg,#6a11cb,#2575fc);
     display:flex;
     justify-content:center;
     align-items:center;
@@ -33,46 +33,93 @@ button {
 button:hover {
     background:#2575fc;
 }
+.captcha-box {
+    background:#eee;
+    padding:10px;
+    letter-spacing:3px;
+    font-weight:bold;
+    margin-bottom: 8px; /* Added margin for spacing */
+}
 .error { color:red; }
 </style>
 </head>
 <body>
 
 <div class="card">
-<h2>Login</h2>
+<h2>Create Account</h2>
 
-<!-- Error message -->
-<p class="error" id="error-msg" style="display:none;"></p>
+<p id="error-message" class="error" style="display:none;"></p>
 
-<form id="login-form">
+<form id="signup-form">
     <input type="text" id="username" placeholder="Username" required>
     <input type="password" id="password" placeholder="Password" required>
-    <button type="submit">Login</button>
+
+    <div class="captcha-box" id="captcha-display"></div>
+
+    <input type="text" id="captcha-input" placeholder="Enter CAPTCHA" required>
+
+    <button type="submit">Sign Up</button>
 </form>
 </div>
 
 <script>
-// Static "backend" credentials (demo only)
-const savedUser = "loginuser";
-const savedPass = "Password123!";
+    let currentCaptcha = '';
 
-const loginForm = document.getElementById('login-form');
-const errorMsg = document.getElementById('error-msg');
-
-loginForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const username = document.getElementById('username').value.trim();
-    const password = document.getElementById('password').value.trim();
-    
-    if (username === savedUser && password === savedPass) {
-        // Redirect to static welcome page
-        window.location.href = "welcome.html"; // create welcome.html next
-    } else {
-        errorMsg.textContent = "Invalid login details!";
-        errorMsg.style.display = "block";
+    // Function to generate a random CAPTCHA string
+    function generateCaptcha() {
+        const characters = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+        let captcha = '';
+        for (let i = 0; i < 5; i++) {
+            captcha += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+        return captcha;
     }
-});
+
+    // Function to display the CAPTCHA
+    function displayCaptcha() {
+        currentCaptcha = generateCaptcha();
+        document.getElementById('captcha-display').innerText = currentCaptcha;
+    }
+
+    // Function to show an error message
+    function showErrorMessage(message) {
+        const errorMessageElement = document.getElementById('error-message');
+        errorMessageElement.innerText = message;
+        errorMessageElement.style.display = 'block';
+    }
+
+    // Function to hide the error message
+    function hideErrorMessage() {
+        document.getElementById('error-message').style.display = 'none';
+    }
+
+    // Handle form submission
+    document.getElementById('signup-form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        hideErrorMessage(); // Clear previous errors
+
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value.trim();
+        const captchaInput = document.getElementById('captcha-input').value.trim();
+
+        if (captchaInput.toLowerCase() !== currentCaptcha.toLowerCase()) {
+            showErrorMessage("Incorrect CAPTCHA!");
+            displayCaptcha(); // Generate new CAPTCHA on error
+        } else {
+            // For a real application, you'd send username and password to a server here.
+            // For this client-side demo, we'll just simulate a "success" and store locally.
+            localStorage.setItem('saved_user', username);
+            localStorage.setItem('saved_pass', password); // IMPORTANT: NEVER store passwords like this in real apps!
+
+            alert("Signup Successful! (Username and password saved in local storage for demo purposes)");
+            // In a real app, you might redirect to a login page or dashboard
+            window.location.href = "login.html"; // Assuming you have a login.html
+        }
+    });
+
+    // Initialize CAPTCHA when the page loads
+    displayCaptcha();
 </script>
 
 </body>
