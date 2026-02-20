@@ -51,7 +51,6 @@ button:hover {
 </div>
 
 <script>
-    // Get the saved username and password from localStorage (from signup)
     const savedUsername = localStorage.getItem('saved_user');
     const savedPassword = localStorage.getItem('saved_pass');
 
@@ -59,14 +58,9 @@ button:hover {
     const passwordInput = document.getElementById('password');
     const errorMessageElement = document.getElementById('error-message');
 
-    // Pre-fill if values exist (optional, for convenience in demo)
     if (savedUsername) {
         usernameInput.value = savedUsername;
     }
-    // Note: Never pre-fill passwords in real applications!
-    // if (savedPassword) {
-    //     passwordInput.value = savedPassword;
-    // }
 
     function showErrorMessage(message) {
         errorMessageElement.innerText = message;
@@ -85,18 +79,15 @@ button:hover {
         const enteredUsername = usernameInput.value.trim();
         const enteredPassword = passwordInput.value.trim();
 
-        // Simulate authentication against locally stored credentials
         if (enteredUsername === savedUsername && enteredPassword === savedPassword) {
-            // "Log in" the user by storing their username in a separate key
             localStorage.setItem('logged_in_user', enteredUsername);
-            window.location.href = "index3.html"; // Redirect to the NEW welcome page (index3.html)
+            window.location.href = "index3.html"; // Redirect to WELCOME page (index3.html)
         } else {
             showErrorMessage("Invalid login details!");
         }
     });
 
-    // Check if already logged in (e.g., user navigated back).
-    // If so, redirect directly to welcome page.
+    // If already logged in, skip login page and go straight to welcome
     if (localStorage.getItem('logged_in_user')) {
         window.location.href = "index3.html";
     }
