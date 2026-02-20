@@ -89,7 +89,7 @@ button:hover {
         if (enteredUsername === savedUsername && enteredPassword === savedPassword) {
             // "Log in" the user by storing their username in a separate key
             localStorage.setItem('logged_in_user', enteredUsername);
-            window.location.href = "index2.html"; // Redirect to the welcome page
+            window.location.href = "index3.html"; // Redirect to the NEW welcome page (index3.html)
         } else {
             showErrorMessage("Invalid login details!");
         }
@@ -98,7 +98,7 @@ button:hover {
     // Check if already logged in (e.g., user navigated back).
     // If so, redirect directly to welcome page.
     if (localStorage.getItem('logged_in_user')) {
-        window.location.href = "index2.html";
+        window.location.href = "index3.html";
     }
 </script>
 
