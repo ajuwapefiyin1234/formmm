@@ -34,8 +34,8 @@ button:hover {
     const username = localStorage.getItem('logged_in_user');
 
     if (!username) {
-        // If no username found, redirect to login page (index3.html)
-        window.location.href = "index3.html"; // Redirect to the NEW login page (index3.html)
+        // If no username found, redirect to login page (index2.html)
+        window.location.href = "index2.html"; // Redirect to the NEW login page (index2.html)
     } else {
         // If logged in, display the welcome message
         document.getElementById('welcome-message').innerText = `🎉 Welcome, ${username}!`;
